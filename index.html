@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Models All The Way Down — Precedent Archive</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- OPENING ARCHIVE LABEL -->
+  <section id="archiveCover" class="archive-cover">
+    <button id="enterArchive" class="archive-label" type="button" aria-label="Open archive">
+      <div class="label-row label-row--top">
+        <span>ARCHIVE ID</span>
+        <strong>MATWD-01</strong>
+        <span class="label-status">● OPEN FILE</span>
+      </div>
+
+      <div class="label-project">
+        <p>PROJECT</p>
+        <h1>MODELS ALL THE WAY DOWN</h1>
+        <p>PRECEDENT STUDY</p>
+      </div>
+
+      <div class="label-grid">
+        <div><span>AUTHORS</span><strong>CHRISTO BUSCHEK / JER THORP</strong></div>
+        <div><span>YEAR</span><strong>2024</strong></div>
+        <div><span>COMPILED BY</span><strong>POPPY YANG</strong></div>
+        <div><span>DATE</span><strong>13.07.2026</strong></div>
+      </div>
+
+      <div class="label-summary">
+        <span>SUMMARY</span>
+        <p>
+          AN INVESTIGATION OF HOW LAION-5B WAS ASSEMBLED, FILTERED,
+          CLASSIFIED, AND SCORED THROUGH LAYERS OF MODELS AND INFRASTRUCTURE.
+        </p>
+      </div>
+
+      <div class="label-footer">
+        <span>CLICK ANYWHERE TO OPEN ARCHIVE</span>
+        <span>↗</span>
+      </div>
+    </button>
+  </section>
+
+  <!-- MAIN ARCHIVE -->
+  <main id="app" class="app is-hidden">
+    <header class="top-bar">
+      <div>
+        <strong>MODELS ALL THE WAY DOWN</strong>
+        <span>PRECEDENT ARCHIVE / MATWD-01</span>
+      </div>
+      <button id="returnCover" class="plain-button" type="button">CLOSE ARCHIVE ×</button>
+    </header>
+
+    <section class="content-shell">
+      <section id="projectPage" class="page active" data-page="project">
+        <header class="section-header">
+          <span class="section-number">01</span>
+          <strong>PROJECT</strong>
+          <span class="section-subtitle">AUTHORS / INSTITUTION / CONTEXT</span>
+        </header>
+
+        <div class="project-grid">
+          <article class="window-card window-card--large project-overview-card">
+            <header>PROJECT FILE / OVERVIEW</header>
+            <div class="window-body">
+              <div class="card-title-row">
+                <div>
+                  <p class="eyebrow">KNOWING MACHINES / 2024</p>
+                  <h3>Models All The Way Down</h3>
+                </div>
+                <a class="archive-link" href="https://knowingmachines.org/models-all-the-way" target="_blank" rel="noopener">ORIGINAL LINK ↗</a>
+              </div>
+              <p>
+                Models All the Way Down is a web-based visual investigation of LAION-5B.
+                It traces how web platforms, classification models, filtering thresholds,
+                and human judgments shape the dataset behind generative AI systems.
+              </p>
+              <div class="project-media">
+                <video autoplay muted loop playsinline controls preload="metadata" poster="assets/knowing-machine.webp">
+                  <source src="assets/models.mp4" type="video/mp4" />
+                  Your browser does not support embedded video.
+                </video>
+              </div>
+            </div>
+          </article>
+
+          <article class="window-card author-card">
+            <header>AUTHOR FILE / 01</header>
+            <img class="card-image" src="assets/christo.webp" alt="Portrait of Christo Buschek" />
+            <div class="window-body">
+              <h3>Christo Buschek</h3>
+              <p>A Pulitzer Prize-winning investigative journalist and software developer who builds tools and methods for examining large and complex datasets.</p>
+              <a class="archive-link archive-link--full" href="https://christobuschek.net/" target="_blank" rel="noopener">VISIT WEBSITE ↗</a>
+            </div>
+          </article>
+
+          <article class="window-card author-card">
+            <header>AUTHOR FILE / 02</header>
+            <img class="card-image" src="assets/jer.webp" alt="Portrait of Jer Thorp" />
+            <div class="window-body">
+              <h3>Jer Thorp</h3>
+              <p>A data artist, writer, and teacher whose work uses visualization and storytelling to make complex data systems publicly understandable.</p>
+              <a class="archive-link archive-link--full" href="https://www.jerthorp.me/" target="_blank" rel="noopener">VISIT WEBSITE ↗</a>
+            </div>
+          </article>
+
+          <article class="window-card window-card--wide institution-card">
+            <header>INSTITUTION FILE</header>
+            <div class="institution-layout">
+              <img class="institution-image" src="assets/knowing-machine.webp" alt="Knowing Machines project image" />
+              <div class="window-body">
+                <h3>Knowing Machines</h3>
+                <p>
+                  A research project examining the histories, practices, and politics
+                  through which machine-learning systems are trained to interpret the world.
+                </p>
+                <a class="archive-link archive-link--full" href="https://knowingmachines.org/" target="_blank" rel="noopener">VISIT WEBSITE ↗</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="systemPage" class="page" data-page="system">
+        <div class="system-layout">
+          <section class="diagram-window">
+            <header class="window-bar">
+              <div class="system-title-group">
+                <span class="section-number">02</span>
+                <strong>SYSTEM DIAGRAM</strong>
+                <span id="diagramModeLabel">PROCESS VIEW</span>
+              </div>
+              <div class="window-actions">
+                <button id="zoomOut" type="button">−</button>
+                <button id="zoomIn" type="button">+</button>
+                <button id="resetView" type="button">RESET</button>
+                <button id="processMode" class="mode-button active" type="button">PROCESS</button>
+                <button id="traceMode" class="mode-button" type="button">TRACE</button>
+              </div>
+            </header>
+
+            <div id="diagramViewport" class="diagram-viewport">
+              <div id="diagramStage" class="diagram-stage">
+                <img
+                  id="pipelineImage"
+                  src="assets/pipeline-process.svg"
+                  alt="LAION pipeline diagram"
+                  draggable="false"
+                />
+
+                <button class="hotspot" data-node="web-pages"
+                  style="left:5.1500%;top:28.8333%;width:6.9333%;height:3.6000%;"></button>
+                <button class="hotspot" data-node="common-crawl"
+                  style="left:19.4167%;top:25.9000%;width:7.7667%;height:9.6667%;"></button>
+                <button class="hotspot" data-node="clip"
+                  style="left:33.1833%;top:37.2333%;width:9.9000%;height:7.3333%;"></button>
+                <button class="hotspot" data-node="cld3"
+                  style="left:33.3833%;top:55.6333%;width:9.7000%;height:6.7333%;"></button>
+                <button class="hotspot" data-node="threshold-gate"
+                  style="left:36.4167%;top:74.1667%;width:6.6667%;height:7.3333%;"></button>
+                <button class="hotspot" data-node="filter"
+                  style="left:48.1167%;top:25.8333%;width:7.9333%;height:9.6000%;"></button>
+                <button class="hotspot" data-node="laion-5b"
+                  style="left:60.3833%;top:26.9667%;width:6.7000%;height:2.6000%;"></button>
+                <button class="hotspot" data-node="aesthetic-predictor"
+                  style="left:71.4500%;top:21.3000%;width:9.0333%;height:13.9333%;"></button>
+                <button class="hotspot" data-node="aesthetic-score"
+                  style="left:86.1167%;top:27.1000%;width:8.7333%;height:2.6000%;"></button>
+              </div>
+            </div>
+          </section>
+
+          <aside id="detailPanel" class="detail-panel">
+            <header>
+              <span class="detail-icon">↓</span>
+              <h2 id="detailTitle">SELECT A NODE</h2>
+            </header>
+
+            <div class="detail-section">
+              <span id="detailLabelOne">OVERVIEW</span>
+              <p id="detailFunction">Click a component in the diagram to inspect it.</p>
+            </div>
+
+            <div class="detail-section">
+              <span id="detailLabelTwo">ROLE IN PIPELINE</span>
+              <p id="detailFinding">Placeholder evidence will appear here.</p>
+            </div>
+
+            <div class="detail-section detail-section--claim">
+              <span id="detailLabelThree">KEY DATA</span>
+              <p id="detailClaim">...</p>
+            </div>
+
+            <footer class="detail-footer">
+              <span id="detailSource">SOURCE TYPE / PLACEHOLDER</span>
+              <button id="openEvidence" type="button" disabled>OPEN EVIDENCE ↗</button>
+            </footer>
+          </aside>
+
+          <section class="actor-panel">
+            <header>
+              <strong>ACTOR RELATIONS</strong>
+              <span id="actorContext">NO NODE SELECTED</span>
+            </header>
+
+            <div class="actor-row">
+              <span>ACTOR / ORGANIZATION</span>
+              <strong id="actorOrganization">—</strong>
+            </div>
+            <div class="actor-row">
+              <span>ROLE IN THE PIPELINE</span>
+              <strong id="actorRole">—</strong>
+            </div>
+            <div class="actor-row">
+              <span>ACTS ON / RECEIVES FROM</span>
+              <strong id="actorRelations">—</strong>
+            </div>
+            <div class="actor-row">
+              <span>CONSEQUENCE / CRITICAL ISSUE</span>
+              <strong id="actorConsequence">—</strong>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="argumentsPage" class="page" data-page="arguments">
+        <header class="section-header">
+          <span class="section-number">03</span>
+          <strong>ARGUMENTS</strong>
+          <span class="section-subtitle">CLAIMS / CRITIQUE / ASSESSMENT</span>
+        </header>
+
+        <div class="argument-index">
+          <article class="argument-core">
+            <div class="argument-core__label">CORE CLAIM</div>
+            <h2>THE DATASET IS CONSTRUCTED, NOT SIMPLY COLLECTED.</h2>
+            <p>LAION-5B is produced through web infrastructure, platform conventions, machine-learning models, and statistical rules before it becomes training data.</p>
+          </article>
+
+          <ol class="argument-list">
+            <li class="argument-item">
+              <span class="argument-number">01</span>
+              <div class="argument-copy">
+                <span class="argument-kicker">AUTHOR ARGUMENT</span>
+                <h3>AUTOMATION RELOCATES HUMAN JUDGMENT.</h3>
+                <p>At web scale, curation does not disappear. Decisions about what belongs are displaced into models, scores, classifications, and thresholds.</p>
+                <div class="argument-tags">AUTOMATED CURATION / RESPONSIBILITY GAP / STATISTICAL DECISION-MAKING</div>
+              </div>
+            </li>
+
+            <li class="argument-item">
+              <span class="argument-number">02</span>
+              <div class="argument-copy">
+                <span class="argument-kicker">AUTHOR ARGUMENT</span>
+                <h3>THE DATASET REPRESENTS THE WEB, NOT THE WORLD.</h3>
+                <p>LAION-5B reflects the parts of the web that can be crawled, parsed, and made machine-readable, including the commercial and platform logics embedded in ALT text.</p>
+                <div class="argument-tags">WEB INFRASTRUCTURE / PLATFORM MEDIATION / MACHINE-READABLE CULTURE</div>
+              </div>
+            </li>
+
+            <li class="argument-item">
+              <span class="argument-number">03</span>
+              <div class="argument-copy">
+                <span class="argument-kicker">AUTHOR ARGUMENT</span>
+                <h3>TECHNICAL SCORES BECOME CULTURAL DECISIONS.</h3>
+                <p>Similarity, language, aesthetics, safety, and ownership are translated into model-generated scores and categories that determine what remains visible.</p>
+                <div class="argument-tags">THRESHOLD POLITICS / QUANTIFIED JUDGMENT / METRICIZATION</div>
+              </div>
+            </li>
+
+            <li class="argument-item">
+              <span class="argument-number">04</span>
+              <div class="argument-copy">
+                <span class="argument-kicker">AUTHOR ARGUMENT</span>
+                <h3>MODELS AND DATASETS FORM A RECURSIVE STACK.</h3>
+                <p>Models help construct datasets that train later models. Assumptions and blind spots can travel through these layers and become increasingly difficult to locate.</p>
+                <div class="argument-tags">MODEL RECURSION / INFRASTRUCTURAL OPACITY / EPISTEMIC CIRCULARITY</div>
+              </div>
+            </li>
+
+            <li class="argument-item">
+              <span class="argument-number">05</span>
+              <div class="argument-copy">
+                <span class="argument-kicker">AUTHOR ARGUMENT</span>
+                <h3>TRANSPARENCY ENABLES INSPECTION, NOT ACCOUNTABILITY.</h3>
+                <p>LAION’s openness makes public investigation possible, but access alone does not make a dataset safe, fair, or responsibly governed.</p>
+                <div class="argument-tags">AUDITABILITY / GOVERNANCE / TRANSPARENCY ≠ ACCOUNTABILITY</div>
+              </div>
+            </li>
+          </ol>
+
+          <aside class="assessment-note">
+            <span>PERSONAL ASSESSMENT</span>
+            <p>The project makes scale visible, but its long-form system map can still be difficult to hold in view as a whole.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="recordsPage" class="page" data-page="records">
+        <header class="section-header">
+          <span class="section-number">04</span>
+          <strong>RECORDS</strong>
+          <span class="section-subtitle">SOURCES / DOCUMENTATION / CREDITS</span>
+        </header>
+
+        <div class="records-list">
+          <section class="record-group">
+            <header><span>001</span><strong>AUTHOR / PROJECT MATERIALS</strong><em>04 LINKS</em></header>
+            <a href="https://knowingmachines.org/models-all-the-way" target="_blank" rel="noopener"><span>01</span><strong>Models All The Way Down</strong><em>PRIMARY PROJECT ↗</em></a>
+            <a href="https://github.com/NYUEngelberg/models-all-the-way" target="_blank" rel="noopener"><span>02</span><strong>models-all-the-way Repository</strong><em>DATA REPOSITORY ↗</em></a>
+            <a href="https://christobuschek.net/laion-5b/" target="_blank" rel="noopener"><span>03</span><strong>Christo Buschek — LAION-5B</strong><em>AUTHOR PROJECT PAGE ↗</em></a>
+            <a href="https://knowingmachines.org/research" target="_blank" rel="noopener"><span>04</span><strong>Knowing Machines Research</strong><em>INSTITUTIONAL PAGE ↗</em></a>
+          </section>
+
+          <section class="record-group">
+            <header><span>002</span><strong>EXTERNAL RECEPTION / REVIEWS</strong><em>02 LINKS</em></header>
+            <a href="https://openfuture.eu/note/seeing-like-an-algorithm-a-closer-look-at-laion-5b/" target="_blank" rel="noopener"><span>01</span><strong>Seeing Like an Algorithm: A Closer Look at LAION-5B</strong><em>OPEN FUTURE ↗</em></a>
+            <a href="https://dhandlib.org/post-models-all-the-way-down/" target="_blank" rel="noopener"><span>02</span><strong>POST: Models All The Way Down</strong><em>DH+LIB REVIEW ↗</em></a>
+          </section>
+
+          <section class="record-group">
+            <header><span>003</span><strong>ADDITIONAL CONTEXT</strong><em>03 LINKS</em></header>
+            <a href="https://arxiv.org/abs/2210.08402" target="_blank" rel="noopener"><span>01</span><strong>LAION-5B: An Open Large-Scale Dataset</strong><em>ACADEMIC PAPER ↗</em></a>
+            <a href="https://laion.ai/laion-5b-a-new-era-of-open-large-scale-multi-modal-datasets/" target="_blank" rel="noopener"><span>02</span><strong>LAION-5B Dataset Announcement</strong><em>LAION ↗</em></a>
+            <a href="https://arxiv.org/abs/2606.23204" target="_blank" rel="noopener"><span>03</span><strong>Unmasking LAION-5B</strong><em>BIAS STUDY ↗</em></a>
+          </section>
+        </div>
+      </section>
+    </section>
+
+    <!-- RIGHT VERTICAL NAVIGATION -->
+    <nav class="vertical-nav" aria-label="Archive sections">
+      <button class="nav-tab active" data-target="project" type="button"><span>01</span>PROJECT</button>
+      <button class="nav-tab" data-target="system" type="button"><span>02</span>SYSTEM</button>
+      <button class="nav-tab" data-target="arguments" type="button"><span>03</span>ARGUMENTS</button>
+      <button class="nav-tab" data-target="records" type="button"><span>04</span>RECORDS</button>
+    </nav>
+  </main>
+
+  <div id="evidenceModal" class="evidence-modal" aria-hidden="true">
+    <section class="evidence-window" role="dialog" aria-modal="true" aria-labelledby="evidenceTitle">
+      <header id="evidenceHandle">
+        <div>
+          <span>EVIDENCE FILE</span>
+          <strong id="evidenceTitle">SELECTED NODE</strong>
+        </div>
+        <button id="closeEvidence" type="button" aria-label="Close evidence">×</button>
+      </header>
+      <div id="evidenceMedia" class="evidence-media">SELECT A COMPONENT TO OPEN EVIDENCE</div>
+      <footer>
+        <a id="evidenceOriginal" class="evidence-original" href="#" target="_blank" rel="noopener">OPEN ORIGINAL ↗</a>
+      </footer>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

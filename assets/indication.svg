@@ -1,0 +1,13 @@
+<svg width="3000" height="1500" viewBox="0 0 3000 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="indication">
+<rect id="web pages" x="154.5" y="434.5" width="208" height="52" stroke="#0362FC"/>
+<rect id="common crawl" x="582.5" y="388.5" width="233" height="145" stroke="#0362FC"/>
+<rect id="CLP" x="995.5" y="555.5" width="297" height="113" stroke="#0362FC"/>
+<rect id="CLD3" x="1001.5" y="834.5" width="291" height="104" stroke="#0362FC"/>
+<rect id="Threshold Gate" x="1092.5" y="1112.5" width="200" height="113" stroke="#0362FC"/>
+<rect id="Rectangle 43353" x="1443.5" y="387.5" width="238" height="144" stroke="#0362FC"/>
+<rect id="LAION- Aesthetics_ Predictor V2" x="2143.5" y="371.5" width="271" height="209" stroke="#0362FC"/>
+<rect id="aesthic score" x="2583.5" y="456.5" width="262" height="41" stroke="#0362FC"/>
+<rect id="laion-5b" x="1811.5" y="456.5" width="201" height="39" stroke="#0362FC"/>
+</g>
+</svg>
