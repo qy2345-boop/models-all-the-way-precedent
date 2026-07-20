@@ -768,3 +768,32 @@ setDiagramMode("process");
   });
   resizeObserver.observe(container);
 })();
+function openD3FromHash() {
+  if (window.location.hash !== "#d3") return;
+
+  archiveCover.classList.add("is-hidden");
+  app.classList.remove("is-hidden");
+
+  const argumentsButton = document.querySelector(
+    '[data-target="arguments"]'
+  );
+
+  if (argumentsButton) {
+    argumentsButton.click();
+  }
+
+  window.setTimeout(() => {
+    const d3Section = document.querySelector("#d3Section");
+
+    if (d3Section) {
+      d3Section.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }, 300);
+}
+
+openD3FromHash();
+
+window.addEventListener("hashchange", openD3FromHash);
