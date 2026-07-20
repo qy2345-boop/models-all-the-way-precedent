@@ -515,3 +515,256 @@ openEvidenceModal = function () {
 };
 
 setDiagramMode("process");
+
+
+/* D3 RELATIONAL STRUCTURE */
+(function initRelationCanvas() {
+  const container = document.getElementById("relationGraph");
+  const info = document.getElementById("relationInfo");
+  const resetButton = document.getElementById("relationReset");
+  if (!container || !info || !resetButton) return;
+
+  if (typeof d3 === "undefined") {
+    container.innerHTML = '<p style="padding:20px">D3 library could not load. Check the internet connection and refresh.</p>';
+    return;
+  }
+
+  const categoryLabel = {
+    actor: "ACTOR / ORGANIZATION",
+    model: "MODEL / OPERATION",
+    data: "DATASET / OUTPUT"
+  };
+
+  let graph = null;
+  let svg = null;
+  let rootGroup = null;
+  let zoomBehavior = null;
+  let selectedId = null;
+  let currentWidth = 0;
+  let currentHeight = 0;
+
+  Promise.all([
+    d3.csv("data/nodes.csv"),
+    d3.csv("data/edges.csv")
+  ]).then(([nodes, links]) => {
+    nodes.forEach((node) => {
+      node.width = Math.max(108, Math.min(170, node.label.length * 8 + 30));
+      node.height = 42;
+    });
+
+    graph = { nodes, links };
+    buildGraph();
+  }).catch((error) => {
+    console.error("Unable to load D3 relational data:", error);
+    container.innerHTML = '<p style="padding:20px">RELATIONAL DATA COULD NOT LOAD. Run the site through a local server rather than opening index.html directly.</p>';
+  });
+
+  function buildGraph() {
+    container.innerHTML = "";
+    currentWidth = Math.max(720, container.clientWidth || 900);
+    currentHeight = Math.max(520, container.clientHeight || 590);
+
+    svg = d3.select(container)
+      .append("svg")
+      .attr("viewBox", `0 0 ${currentWidth} ${currentHeight}`)
+      .attr("role", "img")
+      .attr("aria-label", "Actor, model, and dataset relationship network");
+
+    svg.append("defs")
+      .append("marker")
+      .attr("id", "relation-arrow")
+      .attr("viewBox", "0 -5 10 10")
+      .attr("refX", 8)
+      .attr("refY", 0)
+      .attr("markerWidth", 6)
+      .attr("markerHeight", 6)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M0,-5L10,0L0,5")
+      .attr("fill", "#777");
+
+    rootGroup = svg.append("g");
+
+    zoomBehavior = d3.zoom()
+      .scaleExtent([0.55, 2.4])
+      .on("zoom", (event) => rootGroup.attr("transform", event.transform));
+
+    svg.call(zoomBehavior).on("dblclick.zoom", null);
+
+    const columns = {
+      actor: currentWidth * 0.18,
+      model: currentWidth * 0.50,
+      data: currentWidth * 0.82
+    };
+
+    [
+      ["ACTORS / ORGANIZATIONS", columns.actor],
+      ["MODELS / OPERATIONS", columns.model],
+      ["DATASETS / OUTPUTS", columns.data]
+    ].forEach(([label, x]) => {
+      rootGroup.append("text")
+        .attr("class", "relation-column-label")
+        .attr("x", x)
+        .attr("y", 28)
+        .attr("text-anchor", "middle")
+        .text(label);
+    });
+
+    const grouped = d3.group(graph.nodes, (d) => d.category);
+    grouped.forEach((items, category) => {
+      const gap = (currentHeight - 100) / Math.max(items.length, 1);
+      items.forEach((node, index) => {
+        node.x = columns[category];
+        node.y = 70 + gap * (index + 0.5);
+      });
+    });
+
+    const nodeById = new Map(graph.nodes.map((d) => [d.id, d]));
+    graph.links.forEach((link) => {
+      link.source = nodeById.get(typeof link.source === "string" ? link.source : link.source.id);
+      link.target = nodeById.get(typeof link.target === "string" ? link.target : link.target.id);
+    });
+
+    const links = rootGroup.append("g")
+      .selectAll("path")
+      .data(graph.links)
+      .join("path")
+      .attr("class", "relation-link")
+      .attr("marker-end", "url(#relation-arrow)");
+
+    const labels = rootGroup.append("g")
+      .selectAll("text")
+      .data(graph.links)
+      .join("text")
+      .attr("class", "relation-link-label")
+      .attr("text-anchor", "middle")
+      .text((d) => d.relation);
+
+    const nodes = rootGroup.append("g")
+      .selectAll("g")
+      .data(graph.nodes)
+      .join("g")
+      .attr("class", "relation-node")
+      .attr("data-category", (d) => d.category)
+      .attr("tabindex", 0)
+      .attr("role", "button")
+      .attr("aria-label", (d) => `${d.label}, ${categoryLabel[d.category]}`)
+      .on("click", (event, d) => {
+        event.stopPropagation();
+        selectRelationNode(d.id);
+      })
+      .on("keydown", (event, d) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectRelationNode(d.id);
+        }
+      })
+      .call(d3.drag()
+        .on("start", (event) => event.sourceEvent.stopPropagation())
+        .on("drag", (event, d) => {
+          d.x = event.x;
+          d.y = event.y;
+          updatePositions();
+        }));
+
+    nodes.append("rect")
+      .attr("x", (d) => -d.width / 2)
+      .attr("y", (d) => -d.height / 2)
+      .attr("width", (d) => d.width)
+      .attr("height", (d) => d.height)
+      .attr("rx", 2);
+
+    nodes.append("text")
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
+      .text((d) => d.label);
+
+    svg.on("click", () => selectRelationNode(null));
+
+    function linkPath(d) {
+      const sx = d.source.x + d.source.width / 2;
+      const tx = d.target.x - d.target.width / 2;
+      const mid = (sx + tx) / 2;
+      return `M${sx},${d.source.y} C${mid},${d.source.y} ${mid},${d.target.y} ${tx},${d.target.y}`;
+    }
+
+    function updatePositions() {
+      nodes.attr("transform", (d) => `translate(${d.x},${d.y})`);
+      links.attr("d", linkPath);
+      labels
+        .attr("x", (d) => (d.source.x + d.target.x) / 2)
+        .attr("y", (d) => (d.source.y + d.target.y) / 2 - 6);
+    }
+
+    function selectRelationNode(id) {
+      selectedId = id;
+      const connectedIds = new Set();
+      if (id) {
+        connectedIds.add(id);
+        graph.links.forEach((link) => {
+          if (link.source.id === id) connectedIds.add(link.target.id);
+          if (link.target.id === id) connectedIds.add(link.source.id);
+        });
+      }
+
+      nodes
+        .classed("is-selected", (d) => d.id === id)
+        .classed("is-muted", (d) => Boolean(id) && !connectedIds.has(d.id));
+
+      links
+        .classed("is-active", (d) => Boolean(id) && (d.source.id === id || d.target.id === id))
+        .classed("is-muted", (d) => Boolean(id) && d.source.id !== id && d.target.id !== id);
+
+      labels
+        .classed("is-active", (d) => Boolean(id) && (d.source.id === id || d.target.id === id))
+        .classed("is-muted", (d) => Boolean(id) && d.source.id !== id && d.target.id !== id);
+
+      if (!id) {
+        info.innerHTML = '<span>SELECT A NODE</span><h3>RELATION FILE</h3><p>Click a node to isolate its direct relationships. Drag nodes to adjust the composition; scroll to zoom and pan.</p>';
+        return;
+      }
+
+      const node = nodeById.get(id);
+      const outgoing = graph.links.filter((link) => link.source.id === id);
+      const incoming = graph.links.filter((link) => link.target.id === id);
+      const relationRows = [
+        ...outgoing.map((link) => `${link.relation.toUpperCase()} → ${link.target.label}`),
+        ...incoming.map((link) => `${link.source.label} → ${link.relation.toUpperCase()}`)
+      ];
+
+      info.innerHTML = `
+        <span>${categoryLabel[node.category]}</span>
+        <h3>${node.label}</h3>
+        <p>${node.description}</p>
+        <dl>
+          <div><dt>ORGANIZATION</dt><dd>${node.organization}</dd></div>
+          <div><dt>DIRECT RELATIONS</dt><dd>${relationRows.join("<br>") || "—"}</dd></div>
+        </dl>`;
+    }
+
+    function resetGraph() {
+      selectedId = null;
+      grouped.forEach((items, category) => {
+        const gap = (currentHeight - 100) / Math.max(items.length, 1);
+        items.forEach((node, index) => {
+          node.x = columns[category];
+          node.y = 70 + gap * (index + 0.5);
+        });
+      });
+      updatePositions();
+      selectRelationNode(null);
+      svg.transition().duration(350).call(zoomBehavior.transform, d3.zoomIdentity);
+    }
+
+    resetButton.onclick = resetGraph;
+    updatePositions();
+    selectRelationNode(null);
+  }
+
+  const resizeObserver = new ResizeObserver(() => {
+    if (!graph || !container.offsetParent) return;
+    const nextWidth = container.clientWidth;
+    if (Math.abs(nextWidth - currentWidth) > 40) buildGraph();
+  });
+  resizeObserver.observe(container);
+})();

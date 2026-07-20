@@ -1,0 +1,13 @@
+source,target,relation
+common-crawl,web-pages,crawls and indexes
+web-pages,filter,supplies candidate pairs
+openai,clip,develops
+clip,filter,sends similarity scores
+google,cld3,develops
+cld3,filter,sends language labels
+laion,filter,defines filtering rules
+filter,laion-5b,produces accepted dataset
+laion,laion-5b,publishes
+human-raters,aesthetic-predictor,supply preference ratings
+laion-5b,aesthetic-predictor,supplies images
+aesthetic-predictor,aesthetic-score,outputs predicted score

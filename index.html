@@ -233,6 +233,34 @@
           <span class="section-subtitle">CLAIMS / CRITIQUE / ASSESSMENT</span>
         </header>
 
+
+        <section class="relation-canvas" aria-labelledby="relationCanvasTitle">
+          <header class="relation-canvas__bar">
+            <div>
+              <span>RELATIONAL STRUCTURE / D3.JS</span>
+              <strong id="relationCanvasTitle">ACTORS / MODELS / DATASETS</strong>
+            </div>
+            <div class="relation-canvas__actions">
+              <button id="relationReset" type="button">RESET</button>
+            </div>
+          </header>
+
+          <div class="relation-canvas__body">
+            <div id="relationGraph" class="relation-graph" aria-label="Interactive D3 relationship diagram"></div>
+            <aside id="relationInfo" class="relation-info">
+              <span>SELECT A NODE</span>
+              <h3>RELATION FILE</h3>
+              <p>Click a node to isolate its direct relationships. Drag nodes to adjust the composition; scroll to zoom and pan.</p>
+            </aside>
+          </div>
+
+          <footer class="relation-legend">
+            <span><i class="legend-swatch legend-swatch--actor"></i>ACTOR / ORGANIZATION</span>
+            <span><i class="legend-swatch legend-swatch--model"></i>MODEL / OPERATION</span>
+            <span><i class="legend-swatch legend-swatch--data"></i>DATASET / OUTPUT</span>
+          </footer>
+        </section>
+
         <div class="argument-index">
           <article class="argument-core">
             <div class="argument-core__label">CORE CLAIM</div>
@@ -356,6 +384,7 @@
     </section>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   <script src="script.js"></script>
 </body>
 </html>

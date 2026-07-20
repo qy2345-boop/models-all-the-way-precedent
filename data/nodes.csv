@@ -1,0 +1,13 @@
+id,label,category,organization,description
+common-crawl,Common Crawl,actor,Common Crawl,Creates and maintains web-scale snapshots of publicly accessible pages.
+openai,OpenAI,actor,OpenAI,Developed CLIP as a model for measuring image-text similarity.
+google,Google,actor,Google,Developed CLD3 for language identification.
+laion,LAION,actor,LAION,Builds and distributes large-scale open image-text datasets.
+human-raters,Human Raters,actor,Distributed raters,Supply preference judgments used to train aesthetic scoring models.
+clip,CLIP,model,OpenAI,Measures semantic similarity between image and text embeddings.
+cld3,CLD3,model,Google,Assigns language labels to caption text.
+filter,Filter + Threshold,model,LAION,Applies similarity and language thresholds to accept or eliminate candidate pairs.
+aesthetic-predictor,Aesthetic Predictor,model,LAION community,Estimates perceived aesthetic quality from human-rated images.
+web-pages,Web Pages,data,Web platforms,Source pages containing images and associated text.
+laion-5b,LAION-5B,data,LAION,Dataset of 5.85 billion filtered image-text pairs.
+aesthetic-score,Aesthetic Score,data,LAION,Predicted preference score used to form aesthetic subsets.
